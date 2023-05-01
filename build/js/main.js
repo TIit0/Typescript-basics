@@ -42,14 +42,3 @@ function greetBand(band) {
     return "Hello!";
 }
 greetBand(secondBand);
-/* Enums */
-/* unlike most typescript features, Enums are not a type-level addition to Javascript but something added to the language and the run time */
-var Grade;
-(function (Grade) {
-    Grade[Grade["u"] = 1] = "u";
-    Grade[Grade["d"] = 2] = "d";
-    Grade[Grade["c"] = 3] = "c";
-    Grade[Grade["b"] = 4] = "b";
-    Grade[Grade["a"] = 5] = "a";
-})(Grade || (Grade = {}));
-console.log(Grade.a);

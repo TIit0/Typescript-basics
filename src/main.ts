@@ -73,16 +73,3 @@ function greetBand(band: Band) {
 greetBand(secondBand)
 
 
-/* Enums */
-
-/* unlike most typescript features, Enums are not a type-level addition to Javascript but something added to the language and the run time */
-
-enum Grade {
-    u = 1,
-    d,
-    c,
-    b,
-    a,
-}
-
-console.log(Grade.a)
