@@ -1,137 +1,68 @@
 
-/* Enums */
 
-/* unlike most typescript features, Enums are not a type-level addition to Javascript but something added to the language and the run time */
+type Str = string;
+type Two = number | string;
+type Three = "ello";
 
-enum Grade {
-    u = 1,
-    d,
-    c,
-    b,
-    a,
+/* convert to more or less specific */
+let a: Str = "hello";
+let b = a as Two
+let c: Two = a
+let d = a as Three
+
+let e = <Str> "World"
+let f = <string | number> "world"
+
+const addOrConcat = (a: number, b: number, c: "add" | "concat"): number | string => {
+
+    if (c === "add") return a + b;
+
+    return `${a}${b}`;
 }
 
-console.log(Grade.a)
+let myVal: string = addOrConcat(2,2, "concat") as string;
 
-// type aliases
+/* be careful of using as:
+since it tells typescript to chillout and can lead to mistakes */
+let otherVal: number = addOrConcat(2,2, "concat") as number;
 
+/* 10 as string */ // error
 
-type stringOrNumber = ( string | number );
-
-type StringOrNumberArray = ( string | number )[];
-
-type Guitarist = {
-    name?: string,
-    active: boolean,
-    albums: StringOrNumberArray,
-}
-
-let vanHalen: Guitarist = {
-    active: false,
-    name: "eddie",
-    albums: [1,"hi"],
-}
-
-// Literal types - * note the : *
-let myName: "tito"
-let username: "tito" | "jhon" | "jack";
-username = "jack"
+/* forced casting or double casting */
+(10 as unknown) as string
 
 
-
-// Functions
-
-
-const add = ( a: number, b: number ):string => {
-    return (a + b).toString()
-}
+/* 1:53:27 */
 
 
-const logMsg = (message: any) => {
-    console.log(message)
-}
+/* The DOM */
 
-logMsg(vanHalen);
+const img = document.querySelector("img");
+const myImg = document.querySelector("#img");
+const myImg2 = document.getElementById("img");
 
+// img.src  error: object is posibly null
+// myImg.src  error: object is posibly null
 
-function subtract(c: number, d:number ) {
-    return c - d
-}
+const img2 = document.querySelector("img") as HTMLImageElement;
+img2.src;
+//
 
-console.log(subtract(3,4))
+/* ! is a non null assertion.
+however it will still check if element is correct and has the right properties aka src 
+*/
+const myImg3 = document.querySelector("#img")! as HTMLImageElement;
+myImg3.src
+//
 
-
-// Function types
-type MathFunction = (a: number, b: number ) => number;
-
-// Function interface
-interface MathFunction2 {
-    (a: number, b: number ): number
-}
-
-let multiply: MathFunction = (c, d) => {
-    return c * d;
-}
-
-console.log(multiply(2, 5));
-
-// Optional parameters
-
-/* optional parameters need to be last */
-function addAll(a: number, b: number, c?: number): number {
-    if ( typeof c !== "undefined" ) {
-        return a + b + c
-    } 
-        return a + b
-}
-
-/* default parameter */
-function sumAll(a: number = 2, b: number, c: number = 2): number {
-        return a + b + c
-}
-
-console.log(addAll(2,7,0))
-console.log(addAll(2,7,5))
-console.log(sumAll(3,7))
-console.log(sumAll(undefined, 7)) /* if we want to omit a parameter to use default we need to explicitly set it as undfined */
+// ! non null assertion example
+const img4 = document.querySelector("img")!;
+img4.src
 
 
-// Rest parameters
-/* remember rest creates an arr of parameters */
-function total(num1:number = 2, ...nums: number[]) {
-    return num1 + nums.reduce((prev, curr) => {
-        return prev + curr
-    })
-}
-
-console.log(total(undefined, 2,3,4,5))
-
-/* never type */
-/* never is used for errors */
-const createError = (error: string) => {
-    throw new Error(error)
-}
-
-/* never also alerts of infinite loop if cunction return never */
-const infiniteLoop = () => {
-    let i: number = 0;
-    while (true) {
-        i++
-        if (i > 100 ) break
-    }
-}
-/* custom type guard */
-const isNumber = (value: any): boolean => {
-    return (typeof value === "number") ? true : false;
-}
-
-/* uses for never */
-const numberOrString = (value: number | string): string => {
-    if (typeof value === "string") return "string";
-    if (isNumber(value)) return "number";
-    return createError("this should never happen")
-}
-
-console.log(numberOrString(""))
-
-/* 141 */
+/*
+another example with braket syntax = same as img2.
+note: this doesn't work on tsx files for react 
+*/
+const myImg5 = <HTMLImageElement> document.querySelector("#img")
+myImg5.src
