@@ -1,68 +1,158 @@
 
 
-type Str = string;
-type Two = number | string;
-type Three = "ello";
+/* first example :
 
-/* convert to more or less specific */
-let a: Str = "hello";
-let b = a as Two
-let c: Two = a
-let d = a as Three
+class Coder {
+    name: string
+    music: string
+    age: number
+    lang: string
 
-let e = <Str> "World"
-let f = <string | number> "world"
-
-const addOrConcat = (a: number, b: number, c: "add" | "concat"): number | string => {
-
-    if (c === "add") return a + b;
-
-    return `${a}${b}`;
+    constructor( name: string, music: string, age: number, lang: string ) {
+        this.name = name;
+        this.music = music;
+        this.age = age;
+        this.lang = lang;
+    }
 }
 
-let myVal: string = addOrConcat(2,2, "concat") as string;
-
-/* be careful of using as:
-since it tells typescript to chillout and can lead to mistakes */
-let otherVal: number = addOrConcat(2,2, "concat") as number;
-
-/* 10 as string */ // error
-
-/* forced casting or double casting */
-(10 as unknown) as string
-
-
-/* 1:53:27 */
-
-
-/* The DOM */
-
-const img = document.querySelector("img");
-const myImg = document.querySelector("#img");
-const myImg2 = document.getElementById("img");
-
-// img.src  error: object is posibly null
-// myImg.src  error: object is posibly null
-
-const img2 = document.querySelector("img") as HTMLImageElement;
-img2.src;
-//
-
-/* ! is a non null assertion.
-however it will still check if element is correct and has the right properties aka src 
 */
-const myImg3 = document.querySelector("#img")! as HTMLImageElement;
-myImg3.src
-//
 
-// ! non null assertion example
-const img4 = document.querySelector("img")!;
-img4.src
+/* second example */
+
+class Coder {
+
+    constructor(
+        readonly name: string,
+        public music: string,
+        private age: number,
+        protected lang: string = "Typescript"
+    ) {
+        this.name = name;
+        this.music = music;
+        this.age = age;
+        this.lang = lang;
+    }
+
+    public getAge() {
+        return `Hi! I'm ${this.age} years old`
+    }
+}
+
+const Tito = new Coder("Tito", "Chill", 29,)
+console.log(Tito.getAge());
+//console.log(Tito.age)
+//console.log(Tito.lang)
+
+class WebDev extends Coder {
+
+    constructor(
+        public computer: string,
+        name: string,
+        music: string, 
+        age: number) {
+            super(name, music, age);
+            this.computer = computer
+    }
+
+    public getLang() {
+        return `I write ${this.lang}`
+    }
+}
+
+const Kida = new WebDev("mac", "kida", "rock", 18);
+console.log(Kida.getLang())
+//console.log(Kida.age)
+//console.log(Kida.lang)
+
+
+
+/* Class Interface */
+
+
+interface Musician {
+    name: string;
+    instrument: string;
+    play(action: string): string;
+}
+
+class Guitarist implements Musician {
+    
+    constructor(public name: string, public instrument: string) {
+        this.name = name;
+        this.instrument = instrument;
+    }
+
+    play(action: string) {
+        return `${this.name} ${action} the ${this.instrument}`
+    }
+}
+
+const Page = new Guitarist("Jimmy", "Guitar");
+console.log( Page.play("strums"))
+
+
+/* Static member */
+
+
 
 
 /*
-another example with braket syntax = same as img2.
-note: this doesn't work on tsx files for react 
+Static means it does not apply to any instantiation of the class, it applies to the class directly
 */
-const myImg5 = <HTMLImageElement> document.querySelector("#img")
-myImg5.src
+class Peeps {
+    static count: number = 0;
+
+    static getCount(): number {
+        return Peeps.count
+    }
+
+    public id: number;
+
+    constructor( public name: string) {
+        this.name = name;
+        this.id = ++Peeps.count;
+    }
+}
+
+const Jack = new Peeps("Jack");
+const Steve = new Peeps("Steve");
+
+
+console.log(Peeps.count)
+console.log(Jack.id)
+
+
+/* Getters and Setters */
+
+class Bands {
+
+    private dataState: string[];
+
+    constructor () {
+        this.dataState = []
+    }
+
+    public get data(): string[] {
+        return this.dataState
+    }
+
+    public set data(value: string[]) {
+        if (
+            Array.isArray(value) && 
+            value.every( item => typeof item === "string")
+            ) {
+                this.dataState = value;
+                return
+        } else throw new Error("Param is not an array of strings")
+    }
+}
+
+const MyBands = new Bands();
+MyBands.data = ["scorpions", "Prince"]
+console.log(MyBands.data)
+
+MyBands.data = [...MyBands.data, "P!nk"]
+console.log(MyBands.data)
+
+// MyBands.data = "Van Halen"
