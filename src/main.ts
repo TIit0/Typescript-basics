@@ -133,5 +133,3 @@ const numberOrString = (value: number | string): string => {
 }
 
 console.log(numberOrString(""))
-
-/* 141 */
