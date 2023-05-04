@@ -1,106 +1,62 @@
 "use strict";
-/* first example :
+// Index Signaures
+/* good for dynamically acessing stuff in objects */
+/*  normal interface
 
-class Coder {
-    name: string
-    music: string
-    age: number
-    lang: string
-
-    constructor( name: string, music: string, age: number, lang: string ) {
-        this.name = name;
-        this.music = music;
-        this.age = age;
-        this.lang = lang;
-    }
+interface TransactionObj {
+    pizza: number;
+    books: number;
+    job: number;
 }
-
 */
-/* second example */
-class Coder {
-    constructor(name, music, age, lang = "Typescript") {
-        this.name = name;
-        this.music = music;
-        this.age = age;
-        this.lang = lang;
-        this.name = name;
-        this.music = music;
-        this.age = age;
-        this.lang = lang;
-    }
-    getAge() {
-        return `Hi! I'm ${this.age} years old`;
-    }
+/*  index signature and required props
+
+interface TransactionObj {
+    [index: string] : number;
+
+    pizza: number;
+    books: number;
+    job: number;
 }
-const Tito = new Coder("Tito", "Chill", 29);
-console.log(Tito.getAge());
-//console.log(Tito.age)
-//console.log(Tito.lang)
-class WebDev extends Coder {
-    constructor(computer, name, music, age) {
-        super(name, music, age);
-        this.computer = computer;
-        this.computer = computer;
+*/
+const todaysTransactions = {
+    pizza: -10,
+    books: -5,
+    job: 50
+};
+console.log(todaysTransactions.pizza);
+let prop = "pizza";
+//console.log(todaysTransactions[prop])
+function todaysNet(transactions) {
+    let total = 0;
+    for (let transaction in transactions) {
+        total += transactions[transaction];
     }
-    getLang() {
-        return `I write ${this.lang}`;
-    }
+    return total;
 }
-const Kida = new WebDev("mac", "kida", "rock", 18);
-console.log(Kida.getLang());
-class Guitarist {
-    constructor(name, instrument) {
-        this.name = name;
-        this.instrument = instrument;
-        this.name = name;
-        this.instrument = instrument;
-    }
-    play(action) {
-        return `${this.name} ${action} the ${this.instrument}`;
-    }
-}
-const Page = new Guitarist("Jimmy", "Guitar");
-console.log(Page.play("strums"));
-/* Static member */
+console.log(todaysNet(todaysTransactions));
+const student = {
+    name: "Tim",
+    GPA: 1000,
+    classes: [1, 23, 4],
+    //test: 4
+};
+//console.log( student.test)
 /*
-Static means it does not apply to any instantiation of the class, it applies to the class directly
+for (const key in student) {
+    console.log(`${key}: ${student[key]}`)
+}
 */
-class Peeps {
-    static getCount() {
-        return Peeps.count;
-    }
-    constructor(name) {
-        this.name = name;
-        this.name = name;
-        this.id = ++Peeps.count;
-    }
+// alternative if you can't add a index signature, use assertion
+for (const key in student) {
+    console.log(`${key}: ${student[key]}`);
 }
-Peeps.count = 0;
-const Jack = new Peeps("Jack");
-const Steve = new Peeps("Steve");
-console.log(Peeps.count);
-console.log(Jack.id);
-/* Getters and Setters */
-class Bands {
-    constructor() {
-        this.dataState = [];
-    }
-    get data() {
-        return this.dataState;
-    }
-    set data(value) {
-        if (Array.isArray(value) &&
-            value.every(item => typeof item === "string")) {
-            this.dataState = value;
-            return;
-        }
-        else
-            throw new Error("Param is not an array of strings");
-    }
+/* if you don't know the object structure or data */
+Object.keys(student).map(key => {
+    console.log(student[key]);
+});
+/* Alternative, declare in parameters */
+function logStudentKey(student, key) {
+    console.log(`Student ${key}: ${student[key]}`);
 }
-const MyBands = new Bands();
-MyBands.data = ["scorpions", "Prince"];
-console.log(MyBands.data);
-MyBands.data = [...MyBands.data, "P!nk"];
-console.log(MyBands.data);
-// MyBands.data = "Van Halen"
+logStudentKey(student, "name");
