@@ -60,3 +60,11 @@ function logStudentKey(student, key) {
     console.log(`Student ${key}: ${student[key]}`);
 }
 logStudentKey(student, "name");
+const monthlyIncomes = {
+    salary: 800,
+    bonus: 250,
+    sidehustle: 250,
+};
+for (const revenue in monthlyIncomes) {
+    console.log(`${revenue}: ${monthlyIncomes[revenue]}`);
+}

@@ -110,3 +110,37 @@ function logStudentKey(student: Student, key: keyof Student) {
 
 logStudentKey(student, "name");
 
+
+                  /////////
+
+
+/*
+// normal way
+interface Incomes {
+    [key: string]: number,
+}
+
+// this doesn't work so we use code under
+interface Incomes {
+    [key: "salary"]: number,
+}
+
+*/
+
+/* union literal */
+type Streams = "salary" | "bonus" | "sidehustle";
+
+/* Record utility type equivalent to index signature */
+type Incomes = Record <Streams, number>
+
+const monthlyIncomes: Incomes = {
+    salary: 800,
+    bonus: 250,
+    sidehustle: 250,
+}
+
+for (const revenue in monthlyIncomes) {
+    console.log(
+        `${revenue}: ${monthlyIncomes[revenue as keyof Incomes]}`
+        )
+}
