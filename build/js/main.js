@@ -41,4 +41,23 @@ const gradeData = {
     Sara: { assign1: 80, assign2: 85 },
     Kelly: { assign1: 82, assign2: 83 }
 };
-/* Pick and Omit */
+const score = {
+    studentID: "was",
+    grade: 87
+};
+const preview = {
+    studentID: "hey",
+    title: "project"
+};
+/* Return type */
+//type newAssign = {title: string, points: number};
+const createNewAssign = (title, points) => {
+    return { title, points };
+};
+const tsAssign = createNewAssign("UtiliTypes rock", 100);
+console.log(tsAssign);
+const assignArgs = ["Some things", 100];
+const tsAssign2 = createNewAssign(...assignArgs);
+console.log(tsAssign2);
+/* Awaited */
+//  helps with ReturnType of a promise

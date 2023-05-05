@@ -85,3 +85,77 @@ const gradeData: Record<Students, Grades> = {
 
 
 /* Pick and Omit */
+
+
+
+
+// Pick let you pick properties to use
+type AssignResult = Pick<Assignment, "studentID" | "grade" >;
+
+const score: AssignResult = {
+    studentID: "was",
+    grade: 87
+}
+
+
+// Omit lets you Omit properties
+type AssignPreview = Omit<Assignment, "verified" | "grade">;
+const preview: AssignPreview = {
+    studentID: "hey",
+    title: "project"
+}
+
+
+
+
+/* Exclude and Extract */
+
+
+
+// they do not work with interface, they work with union literal
+
+// Excludes selected
+type AdjustedGrade = Exclude<LetterGrades, "U">
+// Extracts selected
+type HighGrades = Extract<LetterGrades, "A" | "B">
+
+
+
+
+/* Nonnullable */
+
+type AllPossibleGrades = "Dave" | "John" | null | undefined;
+
+type NamesOnly = NonNullable<AllPossibleGrades>
+
+
+/* Return type */
+
+//type newAssign = {title: string, points: number};
+
+const createNewAssign = (title: string, points: number) => {
+    return {title, points}
+}
+
+// aquires the type of the return of the function
+type NewAssign = ReturnType<typeof createNewAssign>
+
+const tsAssign: NewAssign = createNewAssign("UtiliTypes rock", 100)
+
+console.log(tsAssign);
+
+
+/* Parameters */
+
+// aquires the type of params, in this case a touple
+type AssignParams = Parameters<typeof createNewAssign>
+
+const assignArgs: AssignParams = ["Some things", 100];
+
+const tsAssign2: NewAssign = createNewAssign(...assignArgs)
+
+console.log(tsAssign2);
+
+
+/* Awaited */
+//  helps with ReturnType of a promise
