@@ -1,6 +1,6 @@
 
 
-function stringEcho(arg: string): string {
+function echo(arg: string): string {
     return arg;
 }
 

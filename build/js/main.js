@@ -1,4 +1,4 @@
 "use strict";
-function stringEcho(arg) {
+function echo(arg) {
     return arg;
 }
