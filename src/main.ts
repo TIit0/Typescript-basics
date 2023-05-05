@@ -70,6 +70,6 @@ function greetBand(band: Band) {
     return "Hello!"
 }
 
-greetBand(secondBand)
+greetBand(secondBand);
 
 
