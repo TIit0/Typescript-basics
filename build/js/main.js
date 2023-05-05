@@ -1,25 +1,44 @@
 "use strict";
-function stringEcho(arg) {
-    return arg;
-}
-let anotatedSecondObj = {
-    band: "hey",
-    year: 1970,
+/* Utility types */
+/* Partial utility type */
+const updateAssignment = (assign, propsToUpdate) => {
+    //only some partial properties
+    return Object.assign(Object.assign({}, assign), propsToUpdate);
 };
-let eddieVanHalen = {
-    name: "eddie van halen",
-    year: 1940,
-    albums: [5],
+const assign1 = {
+    studentID: "hi23",
+    title: "final project",
+    grade: 89,
 };
-let secondBand = {
-    name: "Daft-punk",
-    albums: [5],
+console.log(updateAssignment(assign1, { title: "completed", grade: 91 }));
+const assignGraded = updateAssignment(assign1, { grade: 95 });
+console.log(assignGraded);
+/* Required and Readonly */
+// Required
+const recordAssignment = (assign) => {
+    //all properties required
+    return assign;
 };
-eddieVanHalen = secondBand;
-function greetBand(band) {
-    if (band.name) {
-        return `Hello! ${band.name} `;
-    }
-    return "Hello!";
-}
-greetBand(secondBand);
+// wont work all properties are reuired
+//recordAssignment(assignVerified)
+// fix - now it has all of the properties
+recordAssignment(Object.assign(Object.assign({}, assignGraded), { verified: true }));
+//Readonly properties cannot be overwritten
+const assignVerified = Object.assign(Object.assign({}, assignGraded), { verified: true });
+// assignVerified.grade = 98;
+/* Record Type */
+const hexColorMap = {
+    red: "FF0000",
+    green: "00FF00",
+    blue: "0000FF",
+};
+// Record type
+const finalgrades = {
+    Sara: "A",
+    Kelly: "A"
+};
+const gradeData = {
+    Sara: { assign1: 80, assign2: 85 },
+    Kelly: { assign1: 82, assign2: 83 }
+};
+/* Pick and Omit */

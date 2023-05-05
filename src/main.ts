@@ -1,43 +1,87 @@
+/* Utility types */
 
-
-function stringEcho(arg: string): string {
-    return arg
+interface Assignment {
+    studentID: string,
+    title: string,
+    grade: number,
+    verified?: boolean
 }
 
-let anotatedSecondObj: {
-    band: string;
-    year: number;
-} = {
-    band: "hey",
-    year: 1970,
+
+/* Partial utility type */
+const updateAssignment = (assign: Assignment, propsToUpdate: Partial<Assignment>): Assignment => {
+    //only some partial properties
+    return {...assign, ...propsToUpdate}
 }
 
-type Band = {
-    name?: string;
-    year?: number;
-    albums: (string | number )[];
+const assign1: Assignment = {
+    studentID: "hi23",
+    title: "final project",
+    grade: 89,
 }
 
-let eddieVanHalen: Band = {
-    name: "eddie van halen",
-    year: 1940,
-    albums: [5],
+console.log(updateAssignment(assign1, {title: "completed", grade:91}));
+
+const assignGraded: Assignment = updateAssignment(assign1, {grade: 95});
+console.log( assignGraded );
+
+
+/* Required and Readonly */
+
+
+
+// Required
+const recordAssignment = (assign: Required<Assignment>): Assignment => {
+//all properties required
+
+return assign;
 }
 
-let secondBand = {
-    name: "Daft-punk",
-    albums: [5],
+// wont work all properties are reuired
+//recordAssignment(assignVerified)
+
+// fix - now it has all of the properties
+recordAssignment({...assignGraded, verified: true})
+
+
+
+
+
+//Readonly properties cannot be overwritten
+const assignVerified: Readonly<Assignment> = {...assignGraded, verified: true}
+
+// assignVerified.grade = 98;
+
+
+/* Record Type */
+
+const hexColorMap: Record<string, string> = {
+    red: "FF0000",
+    green: "00FF00",
+    blue: "0000FF",
 }
 
-eddieVanHalen = secondBand
 
-function greetBand(band: Band) {
-    if ( band.name ) {
-        return `Hello! ${band.name} `
-    }
-    return "Hello!"
+// string literal
+type Students = "Sara" | "Kelly"
+type LetterGrades= "A" | "B" | "C" | "D" | "U"
+
+
+// Record type
+const finalgrades: Record<Students, LetterGrades> = {
+    Sara: "A",
+    Kelly: "A"
 }
 
-greetBand(secondBand);
+interface Grades {
+    assign1: number;
+    assign2: number;
+}
+
+const gradeData: Record<Students, Grades> = {
+    Sara: {assign1: 80, assign2: 85},
+    Kelly: {assign1: 82, assign2: 83}
+}
 
 
+/* Pick and Omit */
