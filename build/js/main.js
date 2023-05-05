@@ -2,4 +2,3 @@
 function stringEcho(arg) {
     return arg;
 }
-
