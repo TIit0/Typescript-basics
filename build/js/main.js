@@ -61,3 +61,4 @@ const tsAssign2 = createNewAssign(...assignArgs);
 console.log(tsAssign2);
 /* Awaited */
 //  helps with ReturnType of a promise
+/* 3:49:00 */ 
